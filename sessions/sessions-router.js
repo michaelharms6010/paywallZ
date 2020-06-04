@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Sessions = require("./sessions-model")
 router.get("/", (req, res) => {
     Sessions.getSessions().then(sessions => {
-        sessionses.status(200).json(sessions)
+        res.status(200).json(sessions)
     }).catch(err => res.status(500))
 })
 
@@ -12,3 +12,5 @@ router.post("/", (req,res) => {
         res.status(201).json(newSession)
     }).catch(err => res.status(500))
 })
+
+router.put("/:id")
