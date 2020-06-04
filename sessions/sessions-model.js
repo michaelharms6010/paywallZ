@@ -4,7 +4,12 @@ module.exports = {
     getSessionBy,
     add,
     setSessionPaid,
-    isSessionPaid
+    isSessionPaid,
+    getSessions
+}
+
+function getSessions() {
+    return db("sessions")
 }
 
 function getSessionBy(filter) {
