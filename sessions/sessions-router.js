@@ -13,4 +13,12 @@ router.post("/", (req,res) => {
     }).catch(err => res.status(500))
 })
 
+router.get("/paywall", (req,res) => {
+    res.render(<h1>Paywall Form</h1>)
+})
+
+router.get("/content", (req,res) => {
+    res.render(<h1>Content</h1>)
+})
+
 router.put("/:id")
