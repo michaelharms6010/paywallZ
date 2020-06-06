@@ -5,7 +5,12 @@ module.exports = {
     add,
     setSessionPaid,
     isSessionPaid,
-    getSessions
+    getSessions,
+    findBy
+}
+
+function findBy(filter) {
+    return db("sessions").where({filter})
 }
 
 function getSessions() {

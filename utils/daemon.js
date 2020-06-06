@@ -1,5 +1,6 @@
 const {exec} = require("child_process");
 const Txns = require("../transactions/txn-model");
+const Sessions = require("../sessions/sessions-model");
 
 var Pusher = require('pusher');
 
@@ -32,11 +33,13 @@ function listen() {
                 newTx.zaddr = saved.address;
                 newTx.amount = Number(saved.amount) / 100000000;
                 newTx.txid = saved.txid;
-                Txns.add(newTx)
-                .then(tx => pusher.trigger('payment-made', 'payment-made', {
-                    'message': 'hash goes here'
-                  }))
-                .catch(err => null)
+                Sessions.findBy({zaddr: newTx.zaddr}).then(session => {
+                    Txns.add(newTx)
+                    .then(tx => pusher.trigger('payment-made', 'payment-made', {
+                        'message': session.hash
+                    }))
+                    .catch(err => null)
+                }).catch(err => console.log(err))
             }
         console.log(txns)
         console.log(stderr)
