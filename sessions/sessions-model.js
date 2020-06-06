@@ -20,8 +20,10 @@ function add(session) {
     return db("sessions").insert(session).returning("*")
 }
 
-function setSessionPaid(id) {
-    return db("sessions").where({id}).update({paid: true}).returning("*")
+async function setSessionPaid(id) {
+    // return db("sessions").where({id}).update({paid: true}).returning("*")
+    await db('sessions').where({id}).update({paid: true})
+    return db("sessions").where({id})
 }
 
 function isSessionPaid(id) {

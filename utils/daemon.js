@@ -24,7 +24,7 @@ function listen() {
         }
         stdout = stdoutLines.slice(cursor).join("")
 
-        const txns = JSON.parse(stdout).filter(tx => tx.amount > 0 && tx.datetime > (Date.now()/1000) - ( 60 * 60) )
+        const txns = JSON.parse(stdout).filter(tx => tx.amount > 1 && tx.datetime > (Date.now()/1000) - ( 60 * 60) )
             for (let i= 0 ; i < txns.length; i++) {
                 let saved = txns[i]
                 let newTx = {};

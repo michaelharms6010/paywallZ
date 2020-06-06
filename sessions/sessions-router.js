@@ -15,9 +15,7 @@ var pusher = new Pusher({
 
 
 router.get("/", (req, res) => {
-    pusher.trigger('payment-made', 'payment-made', {
-        'message': 'hash goes here'
-      });
+
     Sessions.getSessions().then(sessions => {
         res.status(200).json(sessions)
     }).catch(err => res.status(500))
@@ -34,7 +32,8 @@ router.post("/new", (req,res) => {
 })
 
 router.post("/paid", (req,res) => {
-    const sessionId = req.body.session_id;
+    const sessionId = req.body.sessionId;
+    console.log(sessionId)
     Sessions.setSessionPaid(sessionId).then(newsession => {
         res.status(201).send("<h1>Premium Content</h1>")
     }).catch(err => res.status(500))
