@@ -49,7 +49,7 @@ function zaddrCheck() {
 
 async function sessionCheck() {
     let unpaid = await Sessions.getSessionBy({paid: false});
-    unpaid.forEach(session => {
+    unpaid.forEach(async session => {
         if (Date.now() - (20 * 60 * 1000) > session.datetime) {
             await Sessions.remove(session.id)
             await Zaddrs.setAvailable(session.zaddr)
@@ -102,5 +102,6 @@ function listen() {
 
 module.exports= {
     listen,
-    zaddrCheck
+    zaddrCheck,
+    sessionCheck
 }

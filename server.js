@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const {listen, zaddrCheck} = require("./utils/daemon");
+const {listen, zaddrCheck, sessionCheck} = require("./utils/daemon");
 
 const sessionRouter = require("./sessions/sessions-router");
 
@@ -21,5 +21,6 @@ server.get("/", (req,res) => {
 })
 
 setInterval(listen, 3000);
+setInterval(sessionCheck, 60000)
 
 module.exports = server;
