@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Sessions = require("./sessions-model")
+const bcrypt = require("bcryptjs")
 
 var Pusher = require('pusher');
 
@@ -25,6 +26,8 @@ router.get("/", (req, res) => {
 router.post("/new", (req,res) => {
     const newSession = req.body;
     console.log(newSession)
+    newSession.hash = bcrypt.hashSync(String(Math.random()), 5)
+
     Sessions.add(newSession).then(newsession => {
         res.status(201).send("<h1>Paywall</h1>")
     }).catch(err => res.status(500).json({message:'error'}))

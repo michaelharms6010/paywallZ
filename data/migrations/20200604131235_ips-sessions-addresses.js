@@ -16,7 +16,7 @@ exports.up = function(knex) {
     .references("hash")
     .inTable("sessions")
     .onUpdate("CASCADE")
-    .opnDelete("CASCADE")
+    .onDelete("CASCADE")
   })
   .createTable("sessions", tbl => {
       tbl.increments();
