@@ -27,7 +27,11 @@ exports.up = function(knex) {
       // .inTable("ips")
       // .onUpdate("CASCADE")
       // .onDelete("CASCADE");
-      tbl.string("zaddr").notNullable();
+      tbl.string("zaddr").notNullable()
+      .references("zaddr")
+      .inTable("zaddr")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
       tbl.string("contentId").notNullable();
       tbl.boolean("paid").defaultTo(false);
       tbl.string("hash").notNullable();
