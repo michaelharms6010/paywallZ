@@ -23,7 +23,20 @@ function listen() {
             cursor += 1
         }
         stdout = stdoutLines.slice(cursor).join("")
-        const txns = JSON.parse(stdout)
+
+        const txns = JSON.parse(stdout).filter(tx => tx.amount > 0 && tx.datetime > (Date.now()/1000) - ( 60 * 60) )
+            for (let i= 0 ; i < txns.length; i++) {
+                let saved = txns[i]
+                let newTx = {};
+                newTx.zaddr = saved.address;
+                newTx.amount = Number(saved.amount) / 100000000;
+                newTx.txid = saved.txid;
+                Txns.add(newTx)
+                .then(tx => pusher.trigger('payment-made', 'payment-made', {
+                    'message': 'hash goes here'
+                  }))
+                .catch(err => null)
+            }
         console.log(txns)
         console.log(stderr)
         // check to see if it's related to a current content prompt
