@@ -13,8 +13,24 @@ var pusher = new Pusher({
 function listen() {
     exec("zecwallet-cli.exe list", (err, stdout, stderr) => {
         // if there's a new transaction
-        
+        if (err) {
+            console.log(err)
+            return
+        }
+        let cursor = 0;
+        const stdoutLines = stdout.split("\n")
+        while (!stdoutLines[cursor].includes("[")) {
+            cursor += 1
+        }
+        stdout = stdoutLines.slice(cursor).join("")
+        const txns = JSON.parse(stdout)
+        console.log(txns)
+        console.log(stderr)
         // check to see if it's related to a current content prompt
         // push an update with a hash to unlock content
     })
+}
+
+module.exports= {
+    listen
 }
