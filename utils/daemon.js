@@ -47,6 +47,10 @@ function zaddrCheck() {
    
 }
 
+async function sessionCheck() {
+    
+}
+
 
 function listen() {
     exec("zecwallet-cli.exe list", (err, stdout, stderr) => {
@@ -67,13 +71,18 @@ function listen() {
                 let saved = txns[i]
                 let newTx = {};
                 newTx.zaddr = saved.address;
-                newTx.amount = Number(saved.amount) / 100000000;
+                newTx.amount = +saved.amount;
                 newTx.txid = saved.txid;
-                Sessions.findBy({zaddr: newTx.zaddr}).then(session => {
+                Sessions.findBy({zaddr: newTx.zaddr}).first().then(session => {
                     Txns.add(newTx)
-                    .then(tx => pusher.trigger('payment-made', 'payment-made', {
+                    .then(async tx => {
+                        await Zaddrs.setAvailable(newTx.zaddr)
+                        await Sessions.setSessionPaid(session.id)
+                        pusher.trigger('payment-made', 'payment-made', {
                         'message': session.hash
-                    }))
+ 
+                }).catch(err => console.log(err))
+            })
                     .catch(err => null)
                 }).catch(err => console.log(err))
             }

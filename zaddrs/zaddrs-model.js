@@ -4,7 +4,8 @@ module.exports = {
     add,
     getAll,
     findBy,
-    setActive
+    setActive,
+    setAvailable
 }
 
 function add(zaddr) {
@@ -21,4 +22,8 @@ function findBy(filter) {
 
 function setActive(zaddr) {
     return db("zaddrs").where({zaddr}).update({active: true}).returning("*")
+}
+
+function setAvailable(zaddr) {
+    return db("zaddrs").where({zaddr}).update({active: false}).returning("*")
 }

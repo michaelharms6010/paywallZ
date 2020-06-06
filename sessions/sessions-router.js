@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 
 router.post("/new", (req,res) => {
     const newSession = req.body;
-    console.log(newSession)
+    newSession.datetime = Date.now();
     newSession.hash = bcrypt.hashSync(String(Math.random()), 5)
 
     Sessions.add(newSession).then(newsession => {

@@ -27,6 +27,7 @@ exports.up = function(knex) {
       // .inTable("ips")
       // .onUpdate("CASCADE")
       // .onDelete("CASCADE");
+      tbl.string("datetime").notNullable();
       tbl.string("zaddr").notNullable()
       .references("zaddr")
       .inTable("zaddr")
@@ -41,5 +42,6 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   return knex.schema.dropTableIfExists("sessions")
   .dropTableIfExists("zaddrs")
+  .dropTableIfExists("txns")
   .dropTableIfExists("ips")
 };

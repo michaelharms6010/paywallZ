@@ -25,7 +25,7 @@ function getSessionBy(filter) {
 async function add(session) {
     const zaddr = await Zaddrs.findBy({active:false}).first()
     await Zaddrs.setActive(zaddr.zaddr)
-    session.zaddr = zaddr
+    session.zaddr = zaddr.zaddr
     return db("sessions").insert(session).returning("*")
 }
 
