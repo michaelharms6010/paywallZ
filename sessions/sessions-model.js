@@ -1,4 +1,5 @@
 const db= require("../data/db-config");
+const Zaddrs = require("../zaddrs/zaddrs-model");
 
 module.exports = {
     getSessionBy,
@@ -21,7 +22,10 @@ function getSessionBy(filter) {
     return db('sessions').where(filter)
 }
 
-function add(session) {
+async function add(session) {
+    const zaddr = await Zaddrs.findBy({active:false}).first()
+    await Zaddrs.setActive(zaddr.zaddr)
+    session.zaddr = zaddr
     return db("sessions").insert(session).returning("*")
 }
 

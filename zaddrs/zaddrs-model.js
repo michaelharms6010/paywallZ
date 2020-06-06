@@ -3,7 +3,8 @@ const db = require("../data/db-config");
 module.exports = {
     add,
     getAll,
-    findBy
+    findBy,
+    setActive
 }
 
 function add(zaddr) {
@@ -16,4 +17,8 @@ function getAll() {
 
 function findBy(filter) {
     return db("zaddrs").where(filter)
+}
+
+function setActive(zaddr) {
+    return db("zaddrs").where({zaddr}).update({active: true}).returning("*")
 }
