@@ -38,3 +38,7 @@ async function setSessionPaid(id) {
 function isSessionPaid(id) {
     return db("sessions").where({id}).first().paid
 }
+
+function remove(id) {
+    return db("sessions").where({id}).del()
+}
