@@ -2,18 +2,6 @@ const router = require("express").Router();
 const Sessions = require("./sessions-model")
 const bcrypt = require("bcryptjs")
 
-var Pusher = require('pusher');
-
-var pusher = new Pusher({
-  appId: '1014409',
-  key: 'c7b887928299ea61ebff',
-  secret: '01c685d24b3e53f8fcbc',
-  cluster: 'us2',
-  encrypted: true
-});
-
-
-
 router.get("/", (req, res) => {
 
     Sessions.getSessions().then(sessions => {
