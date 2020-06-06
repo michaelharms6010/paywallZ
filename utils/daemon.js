@@ -1,4 +1,5 @@
 const {exec} = require("child_process");
+const Txns = require("../transactions/txn-model");
 
 var Pusher = require('pusher');
 

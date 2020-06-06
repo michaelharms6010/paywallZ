@@ -12,11 +12,13 @@ exports.up = function(knex) {
   .createTable("txns", tbl => {
     tbl.increments();
     tbl.string("txid").unique().notNullable();
-    tbl.string("hash").notNullable()
-    .references("hash")
-    .inTable("sessions")
-    .onUpdate("CASCADE")
-    .onDelete("CASCADE")
+    tbl.integer("amount").notNullable();
+    tbl.string("zaddr").notNullable();
+    // tbl.string("hash").notNullable()
+    // .references("hash")
+    // .inTable("sessions")
+    // .onUpdate("CASCADE")
+    // .onDelete("CASCADE")
   })
   .createTable("sessions", tbl => {
       tbl.increments();
