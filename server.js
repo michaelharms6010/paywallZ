@@ -2,11 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const {listen} = require("./utils/daemon");
+const {listen, zaddrCheck} = require("./utils/daemon");
 
 const sessionRouter = require("./sessions/sessions-router");
 
 const server = express();
+
+zaddrCheck();
 
 server.use(helmet());
 server.use(cors());

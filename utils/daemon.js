@@ -1,6 +1,7 @@
 const {exec} = require("child_process");
 const Txns = require("../transactions/txn-model");
 const Sessions = require("../sessions/sessions-model");
+const Zaddrs = require("../zaddrs/zaddrs-model");
 
 var Pusher = require('pusher');
 
@@ -11,6 +12,26 @@ var pusher = new Pusher({
   cluster: 'us2',
   encrypted: true
 });
+
+function zaddrCheck() {
+    exec("zecwallet-cli.exe balance", (err, stdout, stderr) => {
+    let cursor = 0;
+    const stdoutLines = stdout.split("\n")
+    while (!stdoutLines[cursor].includes("{")) {
+        cursor += 1
+    }
+    const addresses = JSON.parse(stdoutLines.slice(cursor).join(""))
+    const zaddrs = addresses.z_addresses;
+    if (zaddrs.length < 20) {
+        for (let i = 0; i < 20-zaddrs.length; i++) {
+            exec("zecwallet-cli.exe new z")
+        }
+    }
+    console.log(addresses)
+    })
+    
+}
+
 
 function listen() {
     exec("zecwallet-cli.exe list", (err, stdout, stderr) => {
@@ -49,5 +70,6 @@ function listen() {
 }
 
 module.exports= {
-    listen
+    listen,
+    zaddrCheck
 }
