@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/pt11-word-find/back-end#readme",
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -33,6 +33,7 @@
     "knex-cleaner": "^1.3.0",
     "morgan": "^1.10.0",
     "pg": "^7.18.2",
+    "pusher": "^3.0.1",
     "sqlite3": "^4.2.0"
   }
 }

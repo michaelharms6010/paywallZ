@@ -11,12 +11,12 @@ exports.up = function(knex) {
   })
   .createTable("sessions", tbl => {
       tbl.increments();
-      tbl.string("ip")
-      .references("ip")
-      .inTable("ips")
-      .onUpdate("CASCADE")
-      .onDelete("CASCADE");
-      tbl.string("content-id");
+      // tbl.string("ip")
+      // .references("ip")
+      // .inTable("ips")
+      // .onUpdate("CASCADE")
+      // .onDelete("CASCADE");
+      tbl.string("contentId").notNullable();
       tbl.boolean("paid").defaultTo(false);
   })
 };
