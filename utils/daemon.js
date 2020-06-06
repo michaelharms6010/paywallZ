@@ -14,7 +14,7 @@ var pusher = new Pusher({
 });
 
 function zaddrCheck() {
-    exec("zecwallet-cli.exe balance", (err, stdout, stderr) => {
+    exec("zecwallet-cli.exe balance", async (err, stdout, stderr) => {
     let cursor = 0;
     const stdoutLines = stdout.split("\n")
     while (!stdoutLines[cursor].includes("{")) {
@@ -22,14 +22,29 @@ function zaddrCheck() {
     }
     const addresses = JSON.parse(stdoutLines.slice(cursor).join(""))
     const zaddrs = addresses.z_addresses;
-    if (zaddrs.length < 20) {
-        for (let i = 0; i < 20-zaddrs.length; i++) {
-            exec("zecwallet-cli.exe new z")
-        }
+    for (let i in zaddrs) {
+        try{
+            await Zaddrs.add({zaddr: zaddrs[i].address})
+        } catch {}
     }
-    console.log(addresses)
+    let count = 20 - zaddrs.length;
+    if (count < 20) {
+        exec("zecwallet-cli.exe new z", async (err, stdout, stderr) => {
+                let cursor = 0;
+                const stdoutLines = stdout.split("\n")
+                while (!stdoutLines[cursor].includes("[")) {
+                    cursor += 1
+                }
+                const [newAddr] = stdoutLines.slice(cursor).join("")
+                try {
+                await Zaddrs.add({zaddr: newAddr})
+                }
+                catch {}
+                count += 1
+            })
+        }
     })
-    
+   
 }
 
 
