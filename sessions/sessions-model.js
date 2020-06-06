@@ -7,7 +7,8 @@ module.exports = {
     setSessionPaid,
     isSessionPaid,
     getSessions,
-    findBy
+    findBy,
+    remove
 }
 
 function findBy(filter) {
@@ -26,7 +27,10 @@ async function add(session) {
     const zaddr = await Zaddrs.findBy({active:false}).first()
     await Zaddrs.setActive(zaddr.zaddr)
     session.zaddr = zaddr.zaddr
-    return db("sessions").insert(session).returning("*")
+    const [id] = await db("sessions").insert(session)
+    console.log(id)
+    return db("sessions").where({id}).first()
+    // return db("sessions").insert(session).returning("*")
 }
 
 async function setSessionPaid(id) {

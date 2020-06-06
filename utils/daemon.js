@@ -28,14 +28,14 @@ function zaddrCheck() {
         } catch {}
     }
     let count = 20 - zaddrs.length;
-    if (count < 20) {
+    if (count > 0) {
         exec("zecwallet-cli.exe new z", async (err, stdout, stderr) => {
                 let cursor = 0;
                 const stdoutLines = stdout.split("\n")
                 while (!stdoutLines[cursor].includes("[")) {
                     cursor += 1
                 }
-                const [newAddr] = stdoutLines.slice(cursor).join("")
+                const [newAddr] = JSON.parse(stdoutLines.slice(cursor).join(""))
                 try {
                 await Zaddrs.add({zaddr: newAddr})
                 }
@@ -85,7 +85,7 @@ function listen() {
                     .then(async tx => {
                         await Zaddrs.setAvailable(newTx.zaddr)
                         await Sessions.setSessionPaid(session.id)
-                        pusher.trigger('payment-made', 'payment-made', {
+                        pusher.trigger(session.ip, 'payment-made', {
                         'message': session.hash
  
                 }).catch(err => console.log(err))

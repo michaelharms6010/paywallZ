@@ -21,14 +21,20 @@ router.get("/", (req, res) => {
     }).catch(err => res.status(500))
 })
 
-router.post("/new", (req,res) => {
+router.post("/new", async (req,res) => {
     const newSession = req.body;
-    newSession.datetime = Date.now();
-    newSession.hash = bcrypt.hashSync(String(Math.random()), 5)
-
-    Sessions.add(newSession).then(newsession => {
-        res.status(201).send("<h1>Paywall</h1>")
-    }).catch(err => res.status(500).json({message:'error'}))
+    const exists = Sessions.findBy({ip: newSession.ip, contentId: newSession.contentId})[0];
+    console.log(exists)
+    if (exists) {
+        res.status(200).send(`<h1>Send 1 zatoshi to ${exists.zaddr}</h1>`)
+    } else {
+        newSession.datetime = Date.now();
+        newSession.hash = bcrypt.hashSync(String(Math.random()), 5)
+        
+        Sessions.add(newSession).then(newsession => {
+            res.status(201).send(`<h1>Send 1 zatoshi to ${newsession.zaddr}</h1>`)
+        }).catch(err => res.status(500).json({message:'error'}))
+    }
 })
 
 router.post("/paid", (req,res) => {
