@@ -7,8 +7,8 @@ var Pusher = require('pusher');
 
 var pusher = new Pusher({
   appId: '1014409',
-  key: 'c7b887928299ea61ebff',
-  secret: '01c685d24b3e53f8fcbc',
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
   cluster: 'us2',
   encrypted: true
 });
