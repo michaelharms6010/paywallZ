@@ -1,3 +1,3 @@
-# Node/Express BE Template
+# paywallZ
 
-Just a nice template for starting new projects from scratch with prebuilt JWT authentication. Got sick of doing this over and over
+Aiming to create an easy-to-implement paywall (for static websites for now, building towards an npm package)
