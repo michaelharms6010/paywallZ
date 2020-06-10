@@ -54,7 +54,7 @@ async function sessionCheck() {
             await Sessions.remove(session.id)
             await Zaddrs.setAvailable(session.zaddr)
         }
-        // Maybe push expiry notification? Or add timer on FE
+        // Maybe push expiry notification? + add timer on FE
     })
 }
 
@@ -73,7 +73,7 @@ function listen() {
         }
         stdout = stdoutLines.slice(cursor).join("")
 
-        const txns = JSON.parse(stdout).filter(tx => tx.amount > 1 && tx.datetime > (Date.now()/1000) - ( 60 * 60) )
+        const txns = JSON.parse(stdout).filter(tx => tx.amount >= 1 && tx.datetime > (Date.now()/1000) - ( 60 * 60) )
             for (let i= 0 ; i < txns.length; i++) {
                 let saved = txns[i]
                 let newTx = {};
@@ -93,8 +93,6 @@ function listen() {
                     .catch(err => null)
                 }).catch(err => console.log(err))
             }
-        console.log(txns)
-        console.log(stderr)
         // check to see if it's related to a current content prompt
         // push an update with a hash to unlock content
     })

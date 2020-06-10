@@ -11,10 +11,15 @@ router.get("/", (req, res) => {
 
 router.post("/new", async (req,res) => {
     const newSession = req.body;
-    const exists = Sessions.findBy({ip: newSession.ip, contentId: newSession.contentId})[0];
+    console.log(newSession)
+    const exists = await Sessions.findBy({contentId: newSession.contentId}).first();
     console.log(exists)
     if (exists) {
-        res.status(200).send(`<h1>Send 1 zatoshi to ${exists.zaddr}</h1>`)
+        if (exists.paid) {
+            res.send('<h1>Content</h1>')
+        } else {
+            res.status(200).send(`<h1>Send 1 zatoshi to ${exists.zaddr}</h1>`)
+        }
     } else {
         newSession.datetime = Date.now();
         newSession.hash = bcrypt.hashSync(String(Math.random()), 5)

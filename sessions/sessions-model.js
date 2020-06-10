@@ -12,7 +12,7 @@ module.exports = {
 }
 
 function findBy(filter) {
-    return db("sessions").where({filter})
+    return db("sessions").where(filter)
 }
 
 function getSessions() {
